@@ -12,12 +12,9 @@ class MarkdownAdapter {
 			'/[#]{3}(.+)\n/',
 			'/[#]{2}(.+)\n/',
 			'/[#]{1}(.+)\n/',
-			// manage tables
-			//'/([|]{0,1}\s*\w+\s*[|]{0,1})\n[|]{0,1}\s*[- |]+\n/',
 			// specific titles
-			'/(.*)\n(([=]+.*)\n)/',
-			'/(.*)\n(([-][-]+.*)\n)/',
-			// paragraph
+			'/(.*)\n[=]+.*\n/',
+			'/(.*)\n[-][-]+.*\n/',
 			'/[\']{3}((.|\n)*)[\']{3}/',  // code bloc
 			// lines break
 			'/\n([- * _]{3,})\n/',
@@ -26,12 +23,12 @@ class MarkdownAdapter {
 			'/\s\*{2}(.+)\*{2}\s/',  // bolt
 			'/\s\*{1}(.+)\*{1}\s/',  // italic
 			// manage lists
-			'/((\w\.\s+)|(\d\.\s+))(.*)\n\n/',        // end of number
-			'/((-[^-])|(\*[^*])\s+)(.*)\n\n/',                    // end of list
-			'/\n\s*\n(\s*((\w)\.\s+)|((\d)\.\s+))(.*)/', // start of number
-			'/\n\n(\s*(-[^-])|(\*[^*])\s+)(.*)/',                 // start of list
-			'/((\d\.)|(\w\.)|(-)|(\*)\s+)(.*)/',        // content of list
-			'/\n\n/',
+            '/\n\s*((\w\.\s+)|(\d\.\s+))(.*)\n/',           // end of number
+            '/\n\s*((-)|(\*)\s+)(.*)\n/',           // end of list
+            '/\n\s*\n(\s*((\w)\.\s+)|((\d)\.\s+))(.*)/', // start of number
+            '/\n(\s*(-|\*)\s)(.*)/',        // start of list
+            '/\n\s*((\d\.)|(\w\.)|(-)|(\*))\s(.*)/',         // content of list
+			//'/\n\n/',  // new line
 			// paragraph
 			//'/<.*>((.|\n)*)<\/.*>/',
 		];
@@ -47,22 +44,20 @@ class MarkdownAdapter {
 			// specific titles
 			'<h1>${1}</h1>',
 			'<h2>${1}</h2>',
-			// tables
-			// paragraph
 			'<code>${1}</code>',  // code bloc
 			// lines break
 			'<hr />',
 			// manage caracters
-			'<b><i>${1}</i></b>',
-			'<b>${1}</b>',
-			'<i>${1}</i>',
+			'<b><i>${1}</i></b>',  // bolt && italic
+			'<b>${1}</b>',         // bolt
+			'<i>${1}</i>',         // italic
 			// manage lists
 			"<li>\${4}</li></ol>\n\n",                                // end of number
 			"<li>\${4}</li></ul>\n\n",                                // end of list
-			"\n\n<ol type=\"\${3}\" start=\"\${3}\"><li>\${6}</li>",  // start of number
-			"\n\n<ul><li>\${4}</li>",                                 // start of list
-			'<li>${6}</li>',                                          // content of list
-			"<br />\n",
+			"\n\n<ol type=\"\${3}\" start=\"\${3}\"><li>\${6}</li>\n",  // start of number
+			"\n\n<ul><li>\${4}</li>\n",                                 // start of list
+			'<li>${6}</li>\n',                                          // content of list
+			//"<br />\n",  // new line
 			// paragraph
 			//'<p>${1}</p>',
 		];
