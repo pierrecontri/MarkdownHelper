@@ -15,19 +15,23 @@ class MarkdownAdapter {
 			// specific titles
 			'/(.*)\n[=]+.*\n/',
 			'/(.*)\n[-][-]+.*\n/',
-			'/[\']{3}((.|\n)*)[\']{3}/',  // code bloc
+			'/[\']{3}((.|\n)+)[\']{3}/',  // code bloc
 			// lines break
 			'/\n([- * _]{3,})\n/',
 			// manage caracters
 			'/\s\*{3}(.+)\*{3}\s/',  // bolt && italic
 			'/\s\*{2}(.+)\*{2}\s/',  // bolt
 			'/\s\*{1}(.+)\*{1}\s/',  // italic
+
 			// manage lists
-			'/\n\s*((\w\.\s+)|(\d\.\s+))(.*)\n\n/',           // end of number
-//			'/\n\s*((-)|(\*)\s+)(.*)\n/',           // end of list
-			'/\n\n\s*(\w|\d)\.\s+(.*)/', // start of number
-//			'/\n\s*-|\*\s(.*)/',        // start of list
-			'/\n\s*((\d\.)|(\w\.)|(-)|(\*))\s(.*)/',         // content of list
+
+			'/\n[ \t]*(\w|\d)\.[ \t]+(.+)\n\n/',           // end of number
+			'/\n\n[ \t]*([\w\d])\.[ \t]+(.+)\n/', // start of number
+
+			'/\n[ \t]*-|\*\s+(.+)\n\n/',           // end of list
+			'/\n\n[ \t]*([-\*])[ \t]+(.+)\n/',        // start of list
+
+			'/\n[ \t]*(([\d\w]\.)|([-\*]))[ \t]+(.+)/',         // content of list
 			//'/\n\n/',  // new line
 			// paragraph
 			//'/<.*>((.|\n)*)<\/.*>/',
@@ -51,12 +55,16 @@ class MarkdownAdapter {
 			'<b><i>${1}</i></b>',  // bolt && italic
 			'<b>${1}</b>',         // bolt
 			'<i>${1}</i>',         // italic
+
 			// manage lists
-			"<li class=\"endListNb\">\${4}</li></ol>\n\n",                                // end of number
-//			"<li>\${4}</li></ul>\n\n",                                // end of list
+
+			"<li class=\"endListNb\">\${2}</li></ol>\n\n",                                    // end of number
 			"\n\n<ol type=\"\${1}\" start=\"\${1}\"><li class=\"startListNb\">\${2}</li>\n",  // start of number
-//			"\n\n<ul><li>\${4}</li>\n",                                 // start of list
-			"<li class=\"contentList\">\${6}</li>\n",                                          // content of list
+
+			"<li class=\"endListLi\">\${1}</li></ul>\n\n",                                    // end of list
+			"\n\n<ul><li class=\"startListLi\">\${2}</li>\n",                                 // start of list
+
+			"<li class=\"contentList\">\${4}</li>\n",                                          // content of list
 			//"<br />\n",  // new line
 			// paragraph
 			//'<p>${1}</p>',
