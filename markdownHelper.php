@@ -23,11 +23,11 @@ class MarkdownAdapter {
 			'/\s\*{2}(.+)\*{2}\s/',  // bolt
 			'/\s\*{1}(.+)\*{1}\s/',  // italic
 			// manage lists
-            '/\n\s*((\w\.\s+)|(\d\.\s+))(.*)\n/',           // end of number
-            '/\n\s*((-)|(\*)\s+)(.*)\n/',           // end of list
-            '/\n\s*\n(\s*((\w)\.\s+)|((\d)\.\s+))(.*)/', // start of number
-            '/\n(\s*(-|\*)\s)(.*)/',        // start of list
-            '/\n\s*((\d\.)|(\w\.)|(-)|(\*))\s(.*)/',         // content of list
+			'/\n\s*((\w\.\s+)|(\d\.\s+))(.*)\n\n/',           // end of number
+//			'/\n\s*((-)|(\*)\s+)(.*)\n/',           // end of list
+			'/\n\n\s*(\w|\d)\.\s+(.*)/', // start of number
+//			'/\n\s*-|\*\s(.*)/',        // start of list
+			'/\n\s*((\d\.)|(\w\.)|(-)|(\*))\s(.*)/',         // content of list
 			//'/\n\n/',  // new line
 			// paragraph
 			//'/<.*>((.|\n)*)<\/.*>/',
@@ -52,11 +52,11 @@ class MarkdownAdapter {
 			'<b>${1}</b>',         // bolt
 			'<i>${1}</i>',         // italic
 			// manage lists
-			"<li>\${4}</li></ol>\n\n",                                // end of number
-			"<li>\${4}</li></ul>\n\n",                                // end of list
-			"\n\n<ol type=\"\${3}\" start=\"\${3}\"><li>\${6}</li>\n",  // start of number
-			"\n\n<ul><li>\${4}</li>\n",                                 // start of list
-			'<li>${6}</li>\n',                                          // content of list
+			"<li class=\"endListNb\">\${4}</li></ol>\n\n",                                // end of number
+//			"<li>\${4}</li></ul>\n\n",                                // end of list
+			"\n\n<ol type=\"\${1}\" start=\"\${1}\"><li class=\"startListNb\">\${2}</li>\n",  // start of number
+//			"\n\n<ul><li>\${4}</li>\n",                                 // start of list
+			"<li class=\"contentList\">\${6}</li>\n",                                          // content of list
 			//"<br />\n",  // new line
 			// paragraph
 			//'<p>${1}</p>',
