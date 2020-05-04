@@ -15,7 +15,7 @@ class MarkdownAdapter {
 			// specific titles
 			'/(.*)\n[=]+.*\n/',
 			'/(.*)\n[-][-]+.*\n/',
-			'/[\']{3}((.|\n)+)[\']{3}/',  // code bloc
+			'/[\']{3}((.|\n)+)[\']{3}/m',  // code bloc
 			// lines break
 			'/\n([- * _]{3,})\n/',
 			// manage caracters
@@ -25,13 +25,14 @@ class MarkdownAdapter {
 
 			// manage lists
 
-			'/\n[ \t]*(\w|\d)\.[ \t]+(.+)\n\n/',           // end of number
-			'/\n\n[ \t]*([\w\d])\.[ \t]+(.+)\n/', // start of number
+			'/^[ \t]*(\w|\d)\.[ \t]+(.+)$\n\n/m',           // end of number
+			'/\n\n^[ \t]*([\w\d])\.[ \t]+(.+)$/m', // start of number
 
-			'/\n[ \t]*-|\*\s+(.+)\n\n/',           // end of list
-			'/\n\n[ \t]*([-\*])[ \t]+(.+)\n/',        // start of list
+			'/^[ \t]*[-|\*][ \t]+(.+)\n$/m',           // end of list
+			'/\n\n^[ \t]*([-\*])[ \t]+(.+)$/m',        // start of list
 
-			'/\n[ \t]*(([\d\w]\.)|([-\*]))[ \t]+(.+)/',         // content of list
+			'/^[ \t]*(([\d\w]\.)|([-\*]))[ \t]+(.+)$/m',         // content of list
+
 			//'/\n\n/',  // new line
 			// paragraph
 			//'/<.*>((.|\n)*)<\/.*>/',
@@ -65,6 +66,7 @@ class MarkdownAdapter {
 			"\n\n<ul><li class=\"startListLi\">\${2}</li>\n",                                 // start of list
 
 			"<li class=\"contentList\">\${4}</li>\n",                                          // content of list
+
 			//"<br />\n",  // new line
 			// paragraph
 			//'<p>${1}</p>',
