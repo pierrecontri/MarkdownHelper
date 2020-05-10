@@ -4,7 +4,7 @@ include "markdownHelper.php";
 
 $md = new MarkdownAdapter();
 
-// index.php?read=test_md
+// index.php?read=tests.md
 
 $fileToRead = $_GET["read"];
 

@@ -4,8 +4,9 @@
 
 class MarkdownAdapter {
 	
-	
-	public static $patterns = [
+	protected static $patterns = [
+			// tables
+			'/(\|(?:([^\r\n|]*)\|)+)\r?\n\|(?:( ?:?-+:? ?)\|)+\r?\n((\|(?:([^\r\n|]*)\|)+\r?\n)+)/m',
 			// manage titles
 			'/^[#]{6}(.+)$/m',
 			'/^[#]{5}(.+)$/m',
@@ -37,7 +38,9 @@ class MarkdownAdapter {
 			// videos
 		];
 
-	public static $replacements = [
+	protected static $replacements = [
+			// tables
+			"\n<table>\n  <tr><th>{{{{TH}}}}\${1}{{{{TH}}}}</th></tr>\n  <tr><td>{{{{TD}}}}\${4}{{{{TD}}}}</td></tr>\n</table>\n<br/>\n",
 			// manage titles
 			"<h6>\${1}</h6>\n",
 			"<h5>\${1}</h5>\n",
@@ -70,18 +73,18 @@ class MarkdownAdapter {
 		];
 
 
-	public static function transformMdTableToHtml($contentString) {
-		// extract TH and TD part
-		$contentString = preg_replace(
-								'/(\|(?:([^\r\n|]*)\|)+)\r?\n\|(?:( ?:?-+:? ?)\|)+\r?\n((\|(?:([^\r\n|]*)\|)+\r?\n)+)/m',
-								"\n<table>\n  <tr><th>{{{{TH}}}}\${1}{{{{TH}}}}</th></tr>\n  <tr><td>{{{{TD}}}}\${4}{{{{TD}}}}</td></tr>\n</table>\n<br/>\n",
-								$contentString);
-		// treatment on TH part
+
+	public static function transformMdToHtml($contentString) {
+
+		$contentString = preg_replace(self::$patterns, self::$replacements, $contentString);
+
+		// treatment on TH part Table
 		$contentString = preg_replace_callback(
 								'/{{{{TH}}}}\|?(.*)\|?{{{{TH}}}}/m',
 								function ($thpatterns) { return str_replace("|", "</th><th>", $thpatterns[1]); },
 								$contentString);
-		// treatment on TD part
+
+		// treatment on TD part Table
 		$contentString = preg_replace_callback(
 								'/{{{{TD}}}}((.|\n)*?)\n?{{{{TD}}}}/m',
 								function ($tdpatterns) {
@@ -91,20 +94,6 @@ class MarkdownAdapter {
 									return $fullline;
 								},
 								$contentString);
-
-		return $contentString;
-	}
-
-
-	public static function transformMdToHtml($contentString) {
-
-		$contentString = preg_replace(self::$patterns, self::$replacements, $contentString);
-
-        // tables part
-		//$smallFiles = explode("\n\n", $contentString);
-		//$smallFiles = array_map("self::transformMdTableToHtml", $smallFiles);
-		//$contentString = implode("\n\n", $smallFiles);
-		$contentString = self::transformMdTableToHtml($contentString);
 
 		return $contentString;
 	}

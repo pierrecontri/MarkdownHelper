@@ -60,13 +60,9 @@ function transformMdTableToHtml($contentString) {
 }
 
 
-//$simpleTest = file_get_contents("tests.md");
+// $simpleTest = file_get_contents("tests.md");
 $simpleTest = transformMdTableToHtml($simpleTest);
 
 print($simpleTest);
-
-//file_put_contents("exportTable1.txt", $htmlPage);
-//file_put_contents("exportTable2.txt", $htmlPage2);
-//file_put_contents("exportTable3.txt", $htmlPage3);
 
 ?>
