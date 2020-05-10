@@ -5,17 +5,9 @@
 class MarkdownAdapter {
 	
 	
-	// '/^([|]{0,1}((.+)|[|])+)[|]{0,1}\n((([-]+)|([ :|-]{0,1}))+)\n([|]{0,1}(.+)[|]{0,1}\n)+$/m'
-
-	// ^([|]?(.+))+[|]?\n([|]?([ :|-]+)*[|]?)\n([|]?(.+)[|]?\n)+$
-	// ^([|]?.+[|]?)+\n((\|?[ :]?)([-]{2,})([ :]?\|?))+\n(([|]?.+[|]?)\n?)+$
-	//([|]?.+[|]?)+\n(\|?[ :]?[-]{2,}[ :]?\|?)+\n([|]?[ ]?([\d\w]+)[ ]?[|]?\n?)+
-	
-	public static $tablePatern = '/(\|?[ ]*([\d\w]+)[ ]*\|?)+?\n(\|?[ :]?[-]{2,}[ :]?\|?)+\n([|]?[ ]*(.+)[ ]*[|]?\n?)+/m';
-	
-	
-	
 	public static $patterns = [
+			// tables
+			//'/\|?(([ ]*\|?[ ]*([\d\w]+)[ ]*)+?)\|?\n(\|?[ :]?[-]{2,}[ :]?\|?)+\n(([|]?[ ]*(.+)[ ]*[|]?\n?)+)/m',
 			// manage titles
 			'/^[#]{6}(.+)$/m',
 			'/^[#]{5}(.+)$/m',
@@ -36,13 +28,13 @@ class MarkdownAdapter {
 
 			// manage lists
 
-			'/^[ \t]*(\w|\d)\.[ \t]+(.+)$\n\n/m',           // end of number
-			'/\n\n^[ \t]*([\w\d])\.[ \t]+(.+)$/m', // start of number
+			'/^[ \t]*(\w|\d)\.[ \t]+(.+)$\n\n/m',         // end of number
+			'/\n\n^[ \t]*([\w\d])\.[ \t]+(.+)$/m',        // start of number
 
-			'/^[ \t]*[-|\*][ \t]+(.+)\n$/m',           // end of list
-			'/\n\n^[ \t]*([-\*])[ \t]+(.+)$/m',        // start of list
+			'/^[ \t]*[-\*][ \t]+(.+)\n$/m',               // end of list
+			'/\n\n^[ \t]*([-\*])[ \t]+(.+)$/m',           // start of list
 
-			'/^[ \t]*(([\d\w]\.)|([-\*]))[ \t]+(.+)$/m',         // content of list
+			'/^[ \t]*(([\d\w]\.)|([-\*]))[ \t]+(.+)$/m',  // content of list
 
 			//'/\n\n/',  // new line
 			// paragraph
@@ -50,6 +42,8 @@ class MarkdownAdapter {
 		];
 
 	public static $replacements = [
+			// tables
+			//"\n<table>\n  <tr><th>{{{{TH}}}}\${1}{{{{TH}}}}</th></tr>\n  <tr><td>{{{{TD}}}}\${5}{{{{TD}}}}</td></tr>\n</table>\n<br/>\n",
 			// manage titles
 			"<h6>\${1}</h6>\n",
 			"<h5>\${1}</h5>\n",
@@ -83,9 +77,42 @@ class MarkdownAdapter {
 			//'<p>${1}</p>',
 		];
 
+
+	public static function transformMdTableToHtml($contentString) {
+		// extract TH and TD part
+		
+		$contentString = preg_replace(
+								'/\|?(([ ]*\|?[ ]*([\d\w]+)[ ]*)+?)\|?\n(\|?[ :]?[-]{2,}[ :]?\|?)+\n(([|]?[ ]*(.+)[ ]*[|]?\n?)+)/m',
+								"\n<table>\n  <tr><th>{{{{TH}}}}\${1}{{{{TH}}}}</th></tr>\n  <tr><td>{{{{TD}}}}\${5}{{{{TD}}}}</td></tr>\n</table>\n<br/>\n",
+								$contentString);
+		
+		// treatment on TH part
+		$contentString = preg_replace_callback(
+								'/{{{{TH}}}}(.*){{{{TH}}}}/m',
+								function ($thpatterns) { return str_replace("|", "</th><th>", $thpatterns[1]); },
+								$contentString);
+		// treatment on TD part
+		$contentString = preg_replace_callback(
+								'/{{{{TD}}}}((.|\n)*?)\n{{{{TD}}}}/m',
+								function ($tdpatterns) {
+									$tmplines = preg_replace('/^\s?\|?(.*?)\|?\s?$/m', '${1}', explode("\n", $tdpatterns[1]));
+									$fullline  = implode("</td></tr>\n  <tr><td>", $tmplines);
+									$fullline  = str_replace("|", "</td><td>", $fullline);
+									return $fullline;
+								},
+								$contentString);
+	
+		return $contentString;
+	}
+
+
 	public static function transformMdToHtml($contentFileString) {
 
-        return preg_replace(self::$patterns, self::$replacements, $contentFileString);
+        $txtHtml = preg_replace(self::$patterns, self::$replacements, $contentFileString);
+		file_put_contents("exportCompletReadme.txt", $txtHtml);
+		$txtHtml2 = self::transformMdTableToHtml($txtHtml);
+		var_dump($txtHtml2);
+		return $txtHtml;
 	}
 
     public function readMdFile($filename) {
