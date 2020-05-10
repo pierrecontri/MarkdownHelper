@@ -105,7 +105,18 @@ list:
 		6. suitable test 34
 
 
+****
+
+
+
+
+This helper has been written to be copied-pasted in embedded project.
+It is not to have many nuget or other big subproject in a small project, but to be networkless after downloading.
+
+
 _____________
+
+
 
 Tables
 ======

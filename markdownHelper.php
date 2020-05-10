@@ -30,9 +30,11 @@ class MarkdownAdapter {
 			'/\n\n^[ \t]*([-\*])[ \t]+(.+)$/m',           // start of list
 			'/^[ \t]*(([\d\w]\.)|([-\*]))[ \t]+(.+)$/m',  // content of list
 
-			//'/\n\n/',  // new line
+			//'/\n\n\n/',  // new line
 			// paragraph
 			//'/<.*>((.|\n)*)<\/.*>/',
+			// images
+			// videos
 		];
 
 	public static $replacements = [
@@ -63,16 +65,16 @@ class MarkdownAdapter {
 			//"<br />\n",  // new line
 			// paragraph
 			//'<p>${1}</p>',
+			// images
+			// videos
 		];
 
 
 	public static function transformMdTableToHtml($contentString) {
-		
-		
 		// extract TH and TD part
 		$contentString = preg_replace(
-								'/\|?(([ ]*\|?[ ]*([\d\w]+)[ ]*)+?)\|?\n(\|?[ :]?[-]{2,}[ :]?\|?)+\n(([|]?[ ]*(.+)[ ]*[|]?\n?)+)/m',
-								"\n<table>\n  <tr><th>{{{{TH}}}}\${1}{{{{TH}}}}</th></tr>\n  <tr><td>{{{{TD}}}}\${5}{{{{TD}}}}</td></tr>\n</table>\n<br/>\n",
+								'/(\|?(([ ]*\|?[ ]*([\d\w]+)[ ]*)+?)\|?\n(\|?[ :]?[-]{2,}[ :]?\|?)+\n(([|]?[ ]*(.+)[ ]*[|]?\n?)+))/m',
+								"\n<table>\n  <tr><th>{{{{TH}}}}\${2}{{{{TH}}}}</th></tr>\n  <tr><td>{{{{TD}}}}\${6}{{{{TD}}}}</td></tr>\n</table>\n<br/>\n",
 								$contentString);
 		// treatment on TH part
 		$contentString = preg_replace_callback(
@@ -89,101 +91,30 @@ class MarkdownAdapter {
 									return $fullline;
 								},
 								$contentString);
-	
+
 		return $contentString;
 	}
 
 
 	public static function transformMdToHtml($contentString) {
 
-        $txtHtml = preg_replace(self::$patterns, self::$replacements, $contentString);
-		// tables part
-		$smallFiles = explode("\n\n", $txtHtml);
-		$smallFiles = array_map("self::transformMdTableToHtml", $smallFiles);
-		$txtHtml = implode("\n\n", $smallFiles);
+		$contentString = preg_replace(self::$patterns, self::$replacements, $contentString);
 
-		return $txtHtml;
+        // tables part
+		$smallFiles = explode("\n\n", $contentString);
+		//$smallFiles = array_map("self::transformMdTableToHtml", $smallFiles);
+		$contentString2 = implode("\n\n", $smallFiles);
+
+		return $contentString;
 	}
 
     public function readMdFile($filename) {
 		$contentFile = file_get_contents($filename);
 		return self::transformMdToHtml($contentFile);
 	}
-
-	public function hello() {
-		return "Yo man !";
-	}
 	
 	public function test_md() {
-		$simpleTest = <<<ENDTest
-# Title1
-
-test: ceci est cool
-
-## Title2
-
-test2: ceci est vraiment cool
-
-### Title3
-
-test3: ceci est carement cool
-
-___
-*****
-
-BigTitle
-========
-
-second title 1
-
-
-MiddleTitle
------------
-
-second title 2
-
-
-'''
-
-this is a code bloc specific
-if(\$test == 4) {
-	println("Calcul: \$test");
-}
-
-'''
-
-
-list:
-
-- l1
-- l2
-- l3
-
-* ll1
-* ll2
-* ll3
-
-1. test1
-2. test2
-3. test3
-
-	a. testA
-	b. testB
-	c. testC
-
-		2. suitable test 2
-		2. suitable test 3
-		2. suitable test 4
-
-		3. suitable test 31
-		4. suitable test 32
-		5. suitable test 33
-		6. suitable test 34
-
-
-ENDTest;
-
-		return self::transformMdToHtml($simpleTest);
+		return self::readMdFile("tests.md");
 
 	}
 

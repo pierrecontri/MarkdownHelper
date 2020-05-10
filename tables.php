@@ -9,6 +9,12 @@ c4 | c5 | c6
 c7 | c8 | c9
 
 
+
+This helper has been written to be copied-pasted in embedded project.
+It is not to have many nuget or other big subproject in a small project, but to be networkless after downloading.
+
+
+
 | H1 | H2 | H3 |
 | -- | -- | -- |
 | c1 | c2 | c3 |
@@ -31,8 +37,8 @@ function transformMdTableToHtml($contentString) {
 
 	// extract TH and TD part
 	$contentString = preg_replace(
-							'/\|?(([ ]*\|?[ ]*([\d\w]+)[ ]*)+?)\|?\n(\|?[ :]?[-]{2,}[ :]?\|?)+\n(([|]?[ ]*(.+)[ ]*[|]?\n?)+)/m',
-							"\n<table>\n  <tr><th>{{{{TH}}}}\${1}{{{{TH}}}}</th></tr>\n  <tr><td>{{{{TD}}}}\${5}{{{{TD}}}}</td></tr>\n</table>\n<br/>\n",
+							'/(\|?(([ ]*\|?[ ]*([\d\w]+)[ ]*)+?)\|?\n(\|?[ :]?[-]{2,}[ :]?\|?)+\n(([|]?[ ]*(.+)[ ]*[|]?\n?)+))/m',
+							"\n<table>\n  <tr><th>{{{{TH}}}}\${2}{{{{TH}}}}</th></tr>\n  <tr><td>{{{{TD}}}}\${6}{{{{TD}}}}</td></tr>\n</table>\n<br/>\n",
 							$contentString);
 	// treatment on TH part
 	$contentString = preg_replace_callback(
@@ -53,11 +59,16 @@ function transformMdTableToHtml($contentString) {
 	return $contentString;
 }
 
-$simpleTest = file_get_contents("tests.md");
 
-	$smallFiles = explode("\n\n", $simpleTest);
-	$smallFiles = array_map("transformMdTableToHtml", $smallFiles);
-	$simpleTest = implode("\n\n", $smallFiles);
+//$simpleTest = file_get_contents("tests.md");
+$smallFiles = preg_split('/\n\n/m', $simpleTest);
+var_dump($smallFiles);
+$smallFiles = array_map("transformMdTableToHtml", $smallFiles);
+var_dump($smallFiles);
+$simpleTest = implode("\n\n", $smallFiles);
+//$simpleTest = $smallFiles[42];
+
+$simpleTest = transformMdTableToHtml($simpleTest);
 
 print($simpleTest);
 
