@@ -24,6 +24,7 @@ class MarkdownAdapter {
 			'/\s\*{3}(.+)\*{3}\s/',  // bolt && italic
 			'/\s\*{2}(.+)\*{2}\s/',  // bolt
 			'/\s\*{1}(.+)\*{1}\s/',  // italic
+			'/\s_(.+)_\s/',          // underline
 			// manage lists
 			'/^[ \t]*(\w|\d)\.[ \t]+(.+)$\n\n/m',         // end of number
 			'/\n\n^[ \t]*([\w\d])\.[ \t]+(.+)$/m',        // start of number
@@ -34,7 +35,10 @@ class MarkdownAdapter {
 			//'/\n\n\n/',  // new line
 			// paragraph
 			//'/<.*>((.|\n)*)<\/.*>/',
+			// links
+			'/\s\[(.*)\]\((.*)\)\s/m',
 			// images
+			'/\s!\[(.*)\]\((.*)\)\s/m',
 			// videos
 		];
 
@@ -58,6 +62,7 @@ class MarkdownAdapter {
 			'<b><i>${1}</i></b>',  // bolt && italic
 			'<b>${1}</b>',         // bolt
 			'<i>${1}</i>',         // italic
+			'<u>${1}</u>',         // underline
 			// manage lists
 			"<li class=\"endListNb\">\${2}</li></ol>\n\n",                                    // end of number
 			"\n\n<ol type=\"\${1}\" start=\"\${1}\"><li class=\"startListNb\">\${2}</li>\n",  // start of number
@@ -68,7 +73,10 @@ class MarkdownAdapter {
 			//"<br />\n",  // new line
 			// paragraph
 			//'<p>${1}</p>',
+			// links
+			"<a href=\"\${2}\" target=\"_blank\">\${1}</a>",
 			// images
+			"<img src=\"\${2}\" alt=\"\${1}\" />",
 			// videos
 		];
 

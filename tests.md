@@ -8,6 +8,8 @@ list:
 	* lolita 1
 	* lolita 2
 
+    _underline_
+
 	*test*
 	
 	**test**
@@ -149,3 +151,18 @@ c7 | c8 | c9
 | ---- |
 | TX   |
 
+
+____
+
+
+Links
+-----
+
+[site pierreconcept](http://pierreconcept.eu)
+
+
+
+Images
+------
+
+![myMiniFramework](http://www.pierreconcept.eu/data/programming/photos/myminiframework/myMiniFramework_Couverture_0006.jpg)
