@@ -29,7 +29,7 @@ class MarkdownAdapter {
 			'/^[ \t]*(\w|\d)\.[ \t]+(.+)$\n\n/m',         // end of number
 			'/\n\n^[ \t]*([\w\d])\.[ \t]+(.+)$/m',        // start of number
 			'/^[ \t]*[-\*][ \t]+(.+)\n$/m',               // end of list
-			'/\n\n^[ \t]*([-\*])[ \t]+(.+)$/m',           // start of list
+			'/\n\n^[ \t]*[-\*][ \t]+(.+)$/m',             // start of list
 			'/^[ \t]*(([\d\w]\.)|([-\*]))[ \t]+(.+)$/m',  // content of list
 
 			//'/\n\n\n/',  // new line
@@ -67,7 +67,7 @@ class MarkdownAdapter {
 			"<li class=\"endListNb\">\${2}</li></ol>\n\n",                                    // end of number
 			"\n\n<ol type=\"\${1}\" start=\"\${1}\"><li class=\"startListNb\">\${2}</li>\n",  // start of number
 			"<li class=\"endListLi\">\${1}</li></ul>\n\n",                                    // end of list
-			"\n\n<ul><li class=\"startListLi\">\${2}</li>\n",                                 // start of list
+			"\n\n<ul><li class=\"startListLi\">\${1}</li>\n",                                 // start of list
 			"<li class=\"contentList\">\${4}</li>\n",                                         // content of list
 
 			//"<br />\n",  // new line

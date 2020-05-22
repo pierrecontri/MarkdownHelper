@@ -7,6 +7,7 @@
 
 var rulesRegex = [
 	// tables
+	{ pattern : /((?:([^\r\n|]*)\|)+(?:([^\r\n|]*)))\r?\n(?:( ?:?-+:? ?)\|)+(?:( ?:?-+:? ?))\r?\n(((?:([^\r\n|]*)\|)+(?:([^\r\n|]*))\r?\n)+)/gm, replacement : "\n<table>\n  <tr><th>{{{{TH}}}}$1{{{{TH}}}}</th></tr>\n  <tr><td>{{{{TD}}}}$6{{{{TD}}}}</td></tr>\n</table>\n<br/>\n" },
 	{ pattern : /(\|(?:([^\r\n|]*)\|)+)\r?\n\|(?:( ?:?-+:? ?)\|)+\r?\n((\|(?:([^\r\n|]*)\|)+\r?\n)+)/gm, replacement : "\n<table>\n  <tr><th>{{{{TH}}}}$1{{{{TH}}}}</th></tr>\n  <tr><td>{{{{TD}}}}$4{{{{TD}}}}</td></tr>\n</table>\n<br/>\n" },
 	// manage titles
 	{ pattern : /^[#]{6}(.+)$/gm, replacement : "<h6>$1</h6>\n" },
@@ -28,9 +29,9 @@ var rulesRegex = [
 	{ pattern : /\s_(.+)_\s/g,         replacement : '<u>$1</u>' },         // underline
 	// manage lists
 	{ pattern : /^[ \t]*(\w|\d)\.[ \t]+(.+)$\n\n/gm,        replacement : "<li class=\"endListNb\">$2</li></ol>\n\n" },                                    // end of number
-	{ pattern : /\n\n^[ \t]*([\w\d])\.[ \t]+(.+)$/gm,       replacement : "\n\n<ol type=\"${1}\" start=\"${1}\"><li class=\"startListNb\">$2</li>\n" },    // start of number
+	{ pattern : /\n\n^[ \t]*([\w\d])\.[ \t]+(.+)$/gm,       replacement : "\n\n<ol type=\"$1\" start=\"$1\"><li class=\"startListNb\">$2</li>\n" },        // start of number
 	{ pattern : /^[ \t]*[-\*][ \t]+(.+)\n$/gm,              replacement : "<li class=\"endListLi\">$1</li></ul>\n\n" },                                    // end of list
-	{ pattern : /\n\n^[ \t]*([-\*])[ \t]+(.+)$/gm,          replacement : "\n\n<ul><li class=\"startListLi\">$1</li>\n" },                                 // start of list
+	{ pattern : /\n\n^[ \t]*[-\*][ \t]+(.+)$/gm,            replacement : "\n\n<ul><li class=\"startListLi\">$1</li>\n" },                                 // start of list
 	{ pattern : /^[ \t]*(([\d\w]\.)|([-\*]))[ \t]+(.+)$/gm, replacement : "<li class=\"contentList\">$4</li>\n" },                                         // content of list
 
 	//'/\n\n\n/', "<br />\n",  // new line
