@@ -6,6 +6,7 @@ class MarkdownAdapter {
 	
 	protected static $patterns = [
 			// tables
+			'/((?:([^\r\n|]*)\|)+(?:([^\r\n|]*)))\r?\n(?:( ?:?-+:? ?)\|)+(?:( ?:?-+:? ?))\r?\n(((?:([^\r\n|]*)\|)+(?:([^\r\n|]*))\r?\n)+)/m',
 			'/(\|(?:([^\r\n|]*)\|)+)\r?\n\|(?:( ?:?-+:? ?)\|)+\r?\n((\|(?:([^\r\n|]*)\|)+\r?\n)+)/m',
 			// manage titles
 			'/^[#]{6}(.+)$/m',
@@ -44,6 +45,7 @@ class MarkdownAdapter {
 
 	protected static $replacements = [
 			// tables
+			"\n<table>\n  <tr><th>{{{{TH}}}}\${1}{{{{TH}}}}</th></tr>\n  <tr><td>{{{{TD}}}}\${6}{{{{TD}}}}</td></tr>\n</table>\n<br/>\n",
 			"\n<table>\n  <tr><th>{{{{TH}}}}\${1}{{{{TH}}}}</th></tr>\n  <tr><td>{{{{TD}}}}\${4}{{{{TD}}}}</td></tr>\n</table>\n<br/>\n",
 			// manage titles
 			"<h6>\${1}</h6>\n",
@@ -96,7 +98,7 @@ class MarkdownAdapter {
 		$contentString = preg_replace_callback(
 								'/{{{{TD}}}}((.|\n)*?)\n?{{{{TD}}}}/m',
 								function ($tdpatterns) {
-									$tmplines = preg_replace('/^\s?\|?(.*?)\|?\s?$/m', '${1}', explode("\n", $tdpatterns[1]));
+									$tmplines = preg_replace('/^\s?\|?(.*?)\|?\s?$/m', '${1}', array_filter(explode("\n", $tdpatterns[1]), function ($tmpLine) { return $tmpLine != ""; }));
 									$fullline  = implode("</td></tr>\n  <tr><td>", $tmplines);
 									$fullline  = str_replace("|", "</td><td>", $fullline);
 									return $fullline;
