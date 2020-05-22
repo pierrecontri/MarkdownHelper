@@ -58,7 +58,7 @@ var $MD = function(htmlText) {
 	htmlText = htmlText.replace(/{{{{TD}}}}((.|\n)*?)\n?{{{{TD}}}}/gm,
 								tdelem => tdelem
 											.replace(/\|?{{{{TD}}}}\|?/gm,"")
-											.split('\n')
+											.split('\n').filter(ligne => ligne != "")
 											.map(tmpline => tmpline.replace(/^\s?\|?(.*?)\|?\s?$/gm, "$1"))
 											.join("</td></tr>\n  <tr><td>")
 											.replace(/\|/gm, "</td><td>"));
