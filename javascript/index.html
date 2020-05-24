@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+	<script type="text/javascript" src="./markdownHelper.js"></script>
+	<script type="text/javascript">
+
+    function loadTextDoc(theURL, callback)
+    {
+        xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function()
+        {
+            if (xmlhttp.readyState==4 && xmlhttp.status==200)
+            {
+			console.log(xmlhttp);
+				callback(xmlhttp.responseText);
+            }
+        };
+
+        xmlhttp.open("GET", theURL, true);
+        xmlhttp.send();
+    }
+
+
+    function getDocumentFromUrl() {
+		var urlparameters = window.location.search;
+		
+		var params = {};
+		urlparameters
+			.replace("?","")
+			.split("&")
+			.forEach(
+				function (tmpline) {
+					var tmpKV = tmpline.split("=");
+					params[tmpKV[0]] = tmpKV[1]; 
+				}
+			);
+
+		return params["read"];
+	}
+	
+	function callbackReadFile(contentText) {
+		transformMdToHtml('mdText', contentText);
+	}
+	
+	function test() {
+		var fileUrl = getDocumentFromUrl();
+		loadTextDoc(fileUrl, callbackReadFile);		
+	}
+
+	</script>
+
+  </head>
+  <body onload="javascript:test();">
+    <div id ="mdText"></div>
+  </body>
+</html>
