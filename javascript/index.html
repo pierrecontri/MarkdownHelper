@@ -38,19 +38,15 @@
 		return params["read"];
 	}
 	
-	function callbackReadFile(contentText) {
-		transformMdToHtml('mdText', contentText);
-	}
-	
-	function test() {
+	function printMdFile() {
 		var fileUrl = getDocumentFromUrl();
-		loadTextDoc(fileUrl, callbackReadFile);		
+		loadTextDoc(fileUrl, function (contentText) { transformMdToHtml('mdText', contentText); });		
 	}
 
 	</script>
 
   </head>
-  <body onload="javascript:test();">
+  <body onload="javascript:printMdFile();">
     <div id ="mdText"></div>
   </body>
 </html>
