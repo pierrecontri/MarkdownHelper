@@ -9,12 +9,12 @@ class MarkdownAdapter {
 			'/((?:([^\r\n|]*)\|)+(?:([^\r\n|]*)))\r?\n(?:( ?:?-+:? ?)\|)+(?:( ?:?-+:? ?))\r?\n(((?:([^\r\n|]*)\|)+(?:([^\r\n|]*))\r?\n)+)/m',
 			'/(\|(?:([^\r\n|]*)\|)+)\r?\n\|(?:( ?:?-+:? ?)\|)+\r?\n((\|(?:([^\r\n|]*)\|)+\r?\n)+)/m',
 			// manage titles
-			'/^[#]{6}(.+)$/m',
-			'/^[#]{5}(.+)$/m',
-			'/^[#]{4}(.+)$/m',
-			'/^[#]{3}(.+)$/m',
-			'/^[#]{2}(.+)$/m',
-			'/^[#]{1}(.+)$/m',
+			'/^[#]{6}\s*(.+)$/m',
+			'/^[#]{5}\s*(.+)$/m',
+			'/^[#]{4}\s*(.+)$/m',
+			'/^[#]{3}\s*(.+)$/m',
+			'/^[#]{2}\s*(.+)$/m',
+			'/^[#]{1}\s*(.+)$/m',
 			// specific titles
 			'/^(.*)\n[=]+.*$/m',
 			'/^(.*)\n[-][-]+.*\n$/m',
@@ -107,14 +107,35 @@ class MarkdownAdapter {
 
 		return $contentString;
 	}
-
-    public function readMdFile($filename) {
-		$contentFile = file_get_contents($filename);
-		return self::transformMdToHtml($contentFile);
-	}
 	
-	public function test_md() {
-		return self::readMdFile("tests.md");
+	public static function test_md() {
+
+		$sampleText = <<<TestTxt
+		
+This is a simple test for MardownHelper
+
+***
+
+# Title1
+
+under the title 1
+
+## Title 2
+
+under thte title 2
+
+
+List:
+
+- l1
+- l2
+- l3
+- l4
+
+
+TestTxt;
+
+		return self::transformMdToHtml($sampleText);
 
 	}
 

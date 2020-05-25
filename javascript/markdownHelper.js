@@ -12,12 +12,12 @@ markdownHelper.rulesRegex = [
 	{ pattern : /((?:([^\r\n|]*)\|)+(?:([^\r\n|]*)))\r?\n(?:( ?:?-+:? ?)\|)+(?:( ?:?-+:? ?))\r?\n(((?:([^\r\n|]*)\|)+(?:([^\r\n|]*))\r?\n)+)/gm, replacement : "\n<table>\n  <tr><th>{{{{TH}}}}$1{{{{TH}}}}</th></tr>\n  <tr><td>{{{{TD}}}}$6{{{{TD}}}}</td></tr>\n</table>\n<br/>\n" },
 	{ pattern : /(\|(?:([^\r\n|]*)\|)+)\r?\n\|(?:( ?:?-+:? ?)\|)+\r?\n((\|(?:([^\r\n|]*)\|)+\r?\n)+)/gm, replacement : "\n<table>\n  <tr><th>{{{{TH}}}}$1{{{{TH}}}}</th></tr>\n  <tr><td>{{{{TD}}}}$4{{{{TD}}}}</td></tr>\n</table>\n<br/>\n" },
 	// manage titles
-	{ pattern : /^[#]{6}(.+)$/gm, replacement : "<h6>$1</h6>\n" },
-	{ pattern : /^[#]{5}(.+)$/gm, replacement : "<h5>$1</h5>\n" },
-	{ pattern : /^[#]{4}(.+)$/gm, replacement : "<h4>$1</h4>\n" },
-	{ pattern : /^[#]{3}(.+)$/gm, replacement : "<h3>$1</h3>\n" },
-	{ pattern : /^[#]{2}(.+)$/gm, replacement : "<h2>$1</h2>\n" },
-	{ pattern : /^[#]{1}(.+)$/gm, replacement : "<h1>$1</h1>\n" },
+	{ pattern : /^[#]{6}\s*(.+)$/gm, replacement : "<h6>$1</h6>\n" },
+	{ pattern : /^[#]{5}\s*(.+)$/gm, replacement : "<h5>$1</h5>\n" },
+	{ pattern : /^[#]{4}\s*(.+)$/gm, replacement : "<h4>$1</h4>\n" },
+	{ pattern : /^[#]{3}\s*(.+)$/gm, replacement : "<h3>$1</h3>\n" },
+	{ pattern : /^[#]{2}\s*(.+)$/gm, replacement : "<h2>$1</h2>\n" },
+	{ pattern : /^[#]{1}\s*(.+)$/gm, replacement : "<h1>$1</h1>\n" },
 	// specific titles
 	{ pattern : /^(.*)\n[=]+.*$/gm, replacement : "<h1>$1</h1>\n" },
 	{ pattern : /^(.*)\n[-][-]+.*\n$/gm, replacement : "<h2>$1</h2>\n" },
