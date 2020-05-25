@@ -59,7 +59,7 @@ class MarkdownHelper(object):
 
 		def replaceTD(matchobj):
 			tdMatch = matchobj.group(1)
-			tdMatch = re.sub(r'\|?\r?\n\|?','</tr><tr>',tdMatch, flags=re.MULTILINE).replace('|', "</td><td>")
+			tdMatch = re.sub(r'\|?\r?\n\|?','</td></tr><tr><td>',tdMatch, flags=re.MULTILINE).replace('|', "</td><td>")
 			return tdMatch
 
 		# treatment on TD part Table
