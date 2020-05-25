@@ -5,7 +5,9 @@
 
 'use strict';
 
-var rulesRegex = [
+var markdownHelper = {};
+
+markdownHelper.rulesRegex = [
 	// tables
 	{ pattern : /((?:([^\r\n|]*)\|)+(?:([^\r\n|]*)))\r?\n(?:( ?:?-+:? ?)\|)+(?:( ?:?-+:? ?))\r?\n(((?:([^\r\n|]*)\|)+(?:([^\r\n|]*))\r?\n)+)/gm, replacement : "\n<table>\n  <tr><th>{{{{TH}}}}$1{{{{TH}}}}</th></tr>\n  <tr><td>{{{{TD}}}}$6{{{{TD}}}}</td></tr>\n</table>\n<br/>\n" },
 	{ pattern : /(\|(?:([^\r\n|]*)\|)+)\r?\n\|(?:( ?:?-+:? ?)\|)+\r?\n((\|(?:([^\r\n|]*)\|)+\r?\n)+)/gm, replacement : "\n<table>\n  <tr><th>{{{{TH}}}}$1{{{{TH}}}}</th></tr>\n  <tr><td>{{{{TD}}}}$4{{{{TD}}}}</td></tr>\n</table>\n<br/>\n" },
@@ -44,18 +46,18 @@ var rulesRegex = [
 	// videos
 ];
 
-var $MD = function(htmlText) {
+markdownHelper.transformMdToHtml = function (fullText) {
 
-	rulesRegex.forEach(element => htmlText = htmlText.replace(element.pattern, element.replacement));
+	markdownHelper.rulesRegex.forEach(element => fullText = fullText.replace(element.pattern, element.replacement));
 
 	// treatment on TH part Table
-	htmlText = htmlText.replace(/{{{{TH}}}}\|?(.*)\|?{{{{TH}}}}/gm,
+	fullText = fullText.replace(/{{{{TH}}}}\|?(.*)\|?{{{{TH}}}}/gm,
 								thelem => thelem
 											.replace(/\|?{{{{TH}}}}\|?/g,"")
 											.replace(/\|/g, "</th><th>"));
 
 	// treatment on TD part Table
-	htmlText = htmlText.replace(/{{{{TD}}}}((.|\n)*?)\n?{{{{TD}}}}/gm,
+	fullText = fullText.replace(/{{{{TD}}}}((.|\n)*?)\n?{{{{TD}}}}/gm,
 								tdelem => tdelem
 											.replace(/\|?{{{{TD}}}}\|?/gm,"")
 											.split('\n').filter(ligne => ligne != "")
@@ -63,9 +65,5 @@ var $MD = function(htmlText) {
 											.join("</td></tr>\n  <tr><td>")
 											.replace(/\|/gm, "</td><td>"));
 
-	return htmlText;
+	return fullText;
 };
-
-function transformMdToHtml(divName, contentText) {
-	document.getElementById(divName).innerHTML = $MD(contentText);
-}

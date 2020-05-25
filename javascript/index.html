@@ -1,52 +1,26 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
+    <title>Transform Markdown to HTML helper</title>
+    <meta charset=UTF-8 />
 	<script type="text/javascript" src="./markdownHelper.js"></script>
+	<script type="text/javascript" src="./navigationHelper.js"></script>
 	<script type="text/javascript">
 
-    function loadTextDoc(theURL, callback)
-    {
-        xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function()
-        {
-            if (xmlhttp.readyState==4 && xmlhttp.status==200)
-            {
-			console.log(xmlhttp);
-				callback(xmlhttp.responseText);
-            }
-        };
-
-        xmlhttp.open("GET", theURL, true);
-        xmlhttp.send();
-    }
-
-
-    function getDocumentFromUrl() {
-		var urlparameters = window.location.search;
-		
-		var params = {};
-		urlparameters
-			.replace("?","")
-			.split("&")
-			.forEach(
-				function (tmpline) {
-					var tmpKV = tmpline.split("=");
-					params[tmpKV[0]] = tmpKV[1]; 
-				}
-			);
-
-		return params["read"];
-	}
-	
 	function printMdFile() {
-		var fileUrl = getDocumentFromUrl();
-		loadTextDoc(fileUrl, function (contentText) { transformMdToHtml('mdText', contentText); });		
+
+		navigationHelper.loadTextDocument(
+			navigationHelper.getParametersFromUrl().read,
+			function (contentText) {
+				document.getElementById('mdText').innerHTML = markdownHelper.transformMdToHtml(contentText);
+			}
+		);
 	}
 
 	</script>
 
   </head>
   <body onload="javascript:printMdFile();">
-    <div id ="mdText"></div>
+    <div id="mdText"></div>
   </body>
 </html>
