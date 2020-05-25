@@ -64,13 +64,6 @@ class MarkdownHelper(object):
 
 		# treatment on TD part Table
 		fullText = re.sub(r'{{{{TD}}}}\s*[|]?((.|\n)*?)\n?[|]?\s*{{{{TD}}}}', replaceTD, fullText, flags=re.MULTILINE)
-		#							tdelem => tdelem
-		#										.replace(/\|?{{{{TD}}}}\|?/gm,"")
-		#										.split('\n').filter(ligne => ligne != "")
-		#										.map(tmpline => tmpline.replace(/^\s?\|?(.*?)\|?\s?$/gm, "\g<1>"))
-		#										.join("</td></tr>\n  <tr><td>")
-		#										.replace(/\|/gm, "</td><td>"));
-
 	
 		return fullText
 
