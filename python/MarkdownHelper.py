@@ -46,8 +46,7 @@ class MarkdownHelper(object):
 	@staticmethod
 	def transformMdToHtml(fullText):
 	
-		for rule in MarkdownHelper.rulesRegex:
-			(patternReg, replacStr, flagsPat) = rule
+		for (patternReg, replacStr, flagsPat) in MarkdownHelper.rulesRegex:
 			fullText = re.sub(patternReg, replacStr, fullText, flags=flagsPat)
 
 		# Table treatment
@@ -55,10 +54,10 @@ class MarkdownHelper(object):
 		# define TH part Table
 		replaceTH = lambda matchobj: matchobj.group(1).replace('|',"</th><th>")
 		# treatment on TH part Table
-		fullText = re.sub(r'{{{{TH}}}}[|]?(.*)[|]?\{{{{TH}}}}', replaceTH, fullText, flags=re.MULTILINE)
+		fullText = re.sub(r'{{{{TH}}}}\s?[|]?(.*?)[|]?\s?{{{{TH}}}}', replaceTH, fullText, flags=re.MULTILINE)
 
 		# define TD part Table
-		replaceTD = lambda matchobj: re.sub(r'\|?\r?\n\|?','</td></tr><tr><td>', matchobj.group(1), flags=re.MULTILINE).replace('|', "</td><td>")
+		replaceTD = lambda matchobj: re.sub(r'\|?\r?\n\|?','</td></tr>\n  <tr><td>', matchobj.group(1), flags=re.MULTILINE).replace('|', "</td><td>")
 		# treatment on TD part Table
 		fullText = re.sub(r'{{{{TD}}}}\s*[|]?((.|\n)*?)\n?[|]?\s*{{{{TD}}}}', replaceTD, fullText, flags=re.MULTILINE)
 	
