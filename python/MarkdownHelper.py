@@ -61,8 +61,6 @@ class MarkdownHelper(object):
 			tdMatch = matchobj.group(1)
 			tdMatch = re.sub(r'\|?\r?\n\|?','</tr><tr>',tdMatch, flags=re.MULTILINE).replace('|', "</td><td>")
 			return tdMatch
-			#.filter(lambda line: line != "")
-			#.map(lambda tmpline: tmpline.replace(r'^\s?\|?(.*?)\|?\s?$', "\g<1>"))
 
 		# treatment on TD part Table
 		fullText = re.sub(r'{{{{TD}}}}\s*[|]?((.|\n)*?)\n?[|]?\s*{{{{TD}}}}', replaceTD, fullText, flags=re.MULTILINE)
