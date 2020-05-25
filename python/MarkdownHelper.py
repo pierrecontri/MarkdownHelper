@@ -50,13 +50,16 @@ class MarkdownHelper(object):
 			(patternReg, replacStr, flagsPat) = rule
 			fullText = re.sub(patternReg, replacStr, fullText, flags=flagsPat)
 
+		# Table treatment
 
-		# treatment on TH part Table
+		# define TH part Table
 		replaceTH = lambda matchobj: matchobj.group(1).replace('|',"</th><th>")
+		# treatment on TH part Table
 		fullText = re.sub(r'{{{{TH}}}}[|]?(.*)[|]?\{{{{TH}}}}', replaceTH, fullText, flags=re.MULTILINE)
 
-		# treatment on TD part Table
+		# define TD part Table
 		replaceTD = lambda matchobj: re.sub(r'\|?\r?\n\|?','</td></tr><tr><td>', matchobj.group(1), flags=re.MULTILINE).replace('|', "</td><td>")
+		# treatment on TD part Table
 		fullText = re.sub(r'{{{{TD}}}}\s*[|]?((.|\n)*?)\n?[|]?\s*{{{{TD}}}}', replaceTD, fullText, flags=re.MULTILINE)
 	
 		return fullText
