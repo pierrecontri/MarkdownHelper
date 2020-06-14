@@ -21,18 +21,17 @@ class MarkdownAdapter {
 			'/[\']{3}((.|\n)+)[\']{3}/m',  // code bloc
 			// lines break
 			'/\n([- * _]{3,})\n/',
-			// manage caracters
-			'/\s\*{3}(.+)\*{3}\s/',  // bolt && italic
-			'/\s\*{2}(.+)\*{2}\s/',  // bolt
-			'/\s\*{1}(.+)\*{1}\s/',  // italic
-			'/\s_(.+)_\s/',          // underline
 			// manage lists
 			'/^[ \t]*(\w|\d)\.[ \t]+(.+)$\n\n/m',         // end of number
 			'/\n\n^[ \t]*([\w\d])\.[ \t]+(.+)$/m',        // start of number
 			'/^[ \t]*[-\*][ \t]+(.+)\n$/m',               // end of list
 			'/\n\n^[ \t]*[-\*][ \t]+(.+)$/m',             // start of list
 			'/^[ \t]*(([\d\w]\.)|([-\*]))[ \t]+(.+)$/m',  // content of list
-
+			// manage caracters
+			'/([\W\s_])\*{3}(.*?)\*{3}([\W\s_])/',  // bolt && italic
+			'/([\W\s_])\*{2}(.*?)\*{2}([\W\s_])/',  // bolt
+			'/([\W\s_])\*{1}(.*?)\*{1}([\W\s_])/',  // italic
+			'/([\W\s])_(.*?)_([\W\s])/',            // underline
 			'/^\r?\n$/m',  // new line
 			// paragraph
 			//'/<.*>((.|\n)*)<\/.*>/',
@@ -41,6 +40,7 @@ class MarkdownAdapter {
 			// images
 			'/\s!\[(.*)\]\((.*)\)\s/m',
 			// videos
+			//'/ /', //spaces
 		];
 
 	protected static $replacements = [
@@ -60,18 +60,17 @@ class MarkdownAdapter {
 			'<code>${1}</code>',  // code bloc
 			// lines break
 			'<hr />',
-			// manage caracters
-			'<b><i>${1}</i></b>',  // bolt && italic
-			'<b>${1}</b>',         // bolt
-			'<i>${1}</i>',         // italic
-			'<u>${1}</u>',         // underline
 			// manage lists
-			"<li class=\"endListNb\">\${2}</li></ol>\n\n",                                    // end of number
+			"<li class=\"endListNb\">\${2}</li></ol>\n",                                      // end of number
 			"\n\n<ol type=\"\${1}\" start=\"\${1}\"><li class=\"startListNb\">\${2}</li>\n",  // start of number
-			"<li class=\"endListLi\">\${1}</li></ul>\n\n",                                    // end of list
+			"<li class=\"endListLi\">\${1}</li></ul>\n",                                      // end of list
 			"\n\n<ul><li class=\"startListLi\">\${1}</li>\n",                                 // start of list
 			"<li class=\"contentList\">\${4}</li>\n",                                         // content of list
-
+			// manage caracters
+			'${1}<b><i>${2}</i></b>${3}',  // bolt && italic
+			'${1}<b>${2}</b>${3}',         // bolt
+			'${1}<i>${2}</i>${3}',         // italic
+			'${1}<u>${2}</u>${3}',         // underline
 			"<br />\n",  // new line
 			// paragraph
 			//'<p>${1}</p>',
@@ -80,6 +79,8 @@ class MarkdownAdapter {
 			// images
 			"<img src=\"\${2}\" alt=\"\${1}\" />",
 			// videos
+			//"&nbsp;", // spaces
+
 		];
 
 
