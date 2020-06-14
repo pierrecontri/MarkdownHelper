@@ -33,7 +33,7 @@ class MarkdownHelper(object):
 		(r'\n\n^[ \t]*[-\*][ \t]+(.+)$',            "\n\n<ul><li class=\"startListLi\">\g<1></li>\n",                                 re.MULTILINE),        # start of list
 		(r'^[ \t]*(([\d\w]\.)|([-\*]))[ \t]+(.+)$', "<li class=\"contentList\">\g<4></li>\n",                                         re.MULTILINE),        # content of list
 
-		#'/\n\n\n/', "<br />\n",  // new line
+		(r'/^\r?\n$/', "<br />\n", re.MULTILINE), # new line
 		# paragraph
 		#'/<.*>((.|\n)*)<\/.*>/', '<p>${1}</p>',
 		# links

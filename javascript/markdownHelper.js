@@ -36,7 +36,7 @@ markdownHelper.rulesRegex = [
 	{ pattern : /\n\n^[ \t]*[-\*][ \t]+(.+)$/gm,            replacement : "\n\n<ul><li class=\"startListLi\">$1</li>\n" },                                 // start of list
 	{ pattern : /^[ \t]*(([\d\w]\.)|([-\*]))[ \t]+(.+)$/gm, replacement : "<li class=\"contentList\">$4</li>\n" },                                         // content of list
 
-	//'/\n\n\n/', "<br />\n",  // new line
+	{ pattern : /^\r?\n$/gm,                                   replacement : "<br />\n"},  // new line
 	// paragraph
 	//'/<.*>((.|\n)*)<\/.*>/', '<p>${1}</p>',
 	// links

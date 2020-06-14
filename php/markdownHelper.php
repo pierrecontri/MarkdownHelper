@@ -33,7 +33,7 @@ class MarkdownAdapter {
 			'/\n\n^[ \t]*[-\*][ \t]+(.+)$/m',             // start of list
 			'/^[ \t]*(([\d\w]\.)|([-\*]))[ \t]+(.+)$/m',  // content of list
 
-			//'/\n\n\n/',  // new line
+			'/^\r?\n$/m',  // new line
 			// paragraph
 			//'/<.*>((.|\n)*)<\/.*>/',
 			// links
@@ -72,7 +72,7 @@ class MarkdownAdapter {
 			"\n\n<ul><li class=\"startListLi\">\${1}</li>\n",                                 // start of list
 			"<li class=\"contentList\">\${4}</li>\n",                                         // content of list
 
-			//"<br />\n",  // new line
+			"<br />\n",  // new line
 			// paragraph
 			//'<p>${1}</p>',
 			// links
