@@ -91,8 +91,12 @@ class MarkdownAdapter {
 
 		// treatment on TH part Table
 		$contentString = preg_replace_callback(
-								'/{{{{TH}}}}\|?(.*)\|?{{{{TH}}}}/m',
-								function ($thpatterns) { return str_replace("|", "</th><th>", $thpatterns[1]); },
+								'/{{{{TH}}}}\|?.*\|?{{{{TH}}}}/m',
+								function ($thpatterns) { 
+								$thelems = $thpatterns[0];
+									$thelems = preg_replace('/\|?{{{{TH}}}}\|?/', "", $thelems);
+									return str_replace("|", "</th><th>", $thelems);
+								},
 								$contentString);
 
 		// treatment on TD part Table

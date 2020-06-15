@@ -152,6 +152,29 @@ c7 | c8 | c9
 | TX   |
 
 
+***
+
+## Technical Skills
+
+| Méthodes                               | SGBD                                 |
+| -------------------------------------- | ------------------------------------ |
+| Agile, Scrum, Kamban, UML, Merise      | SQL Serveur, DB2, Oracle 9i, 11g,    |
+| SADT, Gant, Pareto, PERT, La RACHE     | MySQL, Lotus Notes, Active Directory |
+
+
+| Langages                               | Systèmes                             |
+| -------------------------------------- | ------------------------------------ |
+| C#, VB.Net, ASP.Net, F#                | Linux (Slackeware, Debian, CentOS,   |
+| C++ Powershell, Shell Script UNIX/Dos  |  RedHat, OpenSuse, OpenSolaris)      |
+| Java, J2EE, JSP, Struts,               | Docker                               |
+| JavaScript, HTML, XML,                 | Windows 2000/XP/Vista/8.1            |
+| PHP, Python, VB Script, Delphi,        | Windows Servers 2003/2008R2/2012R2   |
+| LabView, LotusScript, GTK+             | Windows PE/CE6/2009 Emb              |
+
+
+
+
+
 ____
 
 
