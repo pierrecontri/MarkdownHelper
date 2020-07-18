@@ -36,7 +36,7 @@ class MarkdownAdapter {
 			// paragraph
 			//'/<.*>((.|\n)*)<\/.*>/',
 			// links
-			'/\s\[(.*)\]\((.*)\)\s/m',
+			'/(\s)\[(.*)\]\((.*)\)\s?/m',
 			// images
 			'/\s!\[(.*)\]\((.*)\)\s/m',
 			// videos
@@ -57,7 +57,7 @@ class MarkdownAdapter {
 			// specific titles
 			"<h1>\${1}</h1>\n",
 			"<h2>\${1}</h2>\n",
-			'<code>${1}</code>',  // code bloc
+			'<pre><code>${1}</code></pre>',  // code bloc
 			// lines break
 			'<hr />',
 			// manage lists
@@ -75,15 +75,13 @@ class MarkdownAdapter {
 			// paragraph
 			//'<p>${1}</p>',
 			// links
-			"<a href=\"\${2}\" target=\"_blank\">\${1}</a>",
+			"\${1}<a href=\"\${3}\" target=\"_blank\">\${2}</a>",
 			// images
 			"<img src=\"\${2}\" alt=\"\${1}\" />",
 			// videos
 			//"&nbsp;", // spaces
 
 		];
-
-
 
 	public static function transformMdToHtml($contentString) {
 
