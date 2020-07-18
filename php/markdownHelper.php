@@ -18,7 +18,7 @@ class MarkdownAdapter {
 			// specific titles
 			'/^(.*)\n[=]+.*$/m',
 			'/^(.*)\n[-][-]+.*\n$/m',
-			'/[\']{3}((.|\n)+)[\']{3}/m',  // code bloc
+			'/[\']{3}((.|\n)+?)[\']{3}/m',  // code bloc
 			// lines break
 			'/\n([- * _]{3,})\n/',
 			// manage lists
