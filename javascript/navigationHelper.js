@@ -11,14 +11,18 @@ navigationHelper.loadTextDocument = function(theURL, callbackTreatment)
 {
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
-		if (xmlhttp.readyState==4 && (xmlhttp.status==200 || xmlhttp.status==0)) {
-			callbackTreatment(xmlhttp.responseText);
+		if (xmlhttp.readyState==4) {
+			if (xmlhttp.status==200 || xmlhttp.status==0)
+				callbackTreatment(xmlhttp.responseText);
+			else
+				callbackTreatment("Error on getting document or no file");
 		}
 	};
 
 	xmlhttp.open("GET", theURL, true);
-    xmlhttp.setRequestHeader('Accept', 'application/json, text/javascript, text/plain');
-    xmlhttp.setRequestHeader('Content-Type','text/plain; charset=UTF-8');
+	xmlhttp.setRequestHeader('Access-Control-Allow-Origin', '*');
+	xmlhttp.setRequestHeader('Accept', 'application/json, text/javascript, text/plain');
+	xmlhttp.setRequestHeader('Content-Type','text/plain; charset=UTF-8');
 	xmlhttp.send();
 };
 
