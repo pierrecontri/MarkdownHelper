@@ -11,12 +11,14 @@ navigationHelper.loadTextDocument = function(theURL, callbackTreatment)
 {
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
-		if (xmlhttp.readyState==4 && xmlhttp.status==200) {
+		if (xmlhttp.readyState==4 && (xmlhttp.status==200 || xmlhttp.status==0)) {
 			callbackTreatment(xmlhttp.responseText);
 		}
 	};
 
 	xmlhttp.open("GET", theURL, true);
+    xmlhttp.setRequestHeader('Accept', 'application/json, text/javascript, text/plain');
+    xmlhttp.setRequestHeader('Content-Type','text/plain; charset=UTF-8');
 	xmlhttp.send();
 };
 
@@ -33,4 +35,22 @@ navigationHelper.getParametersFromUrl = function() {
 			}
 		);
 	return params;
+};
+
+
+navigationHelper.printMdFile = function(...args) {
+
+	// get arguments
+    let [idContainer, mdUrl, other] = args;
+
+    if (mdUrl == undefined || mdUrl == '')
+		mdUrl = navigationHelper.getParametersFromUrl().read;
+
+
+	navigationHelper.loadTextDocument(
+		mdUrl,
+		function (contentText) {
+			document.getElementById(idContainer).innerHTML = markdownHelper.transformMdToHtml(contentText);
+		}
+	);
 };
