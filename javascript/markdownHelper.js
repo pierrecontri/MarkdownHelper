@@ -37,7 +37,7 @@ markdownHelper.rulesRegex = [
 	{ pattern : /\s\*{1}(.+)\*{1}\s/g, replacement : '<i>$1</i>' },         // italic
 	{ pattern : /\s_(.+)_\s/g,         replacement : '<u>$1</u>' },         // underline
 
-	{ pattern : /^\r?\n$/gm,                                   replacement : "<br />\n"},  // new line
+	{ pattern : /(.*?\r?\n)(\r?\n)/gm, replacement : "$1<br />\n"},  // new line
 	// paragraph
 	//'/<.*>((.|\n)*)<\/.*>/', '<p>${1}</p>',
 	// links
