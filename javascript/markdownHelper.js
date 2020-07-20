@@ -12,7 +12,7 @@ markdownHelper.rulesRegex = [
 	{ pattern : /((?:([^\r\n|]*)\|)+(?:([^\r\n|]*)))\r?\n(?:( ?:?-+:? ?)\|)+(?:( ?:?-+:? ?))\r?\n(((?:([^\r\n|]*)\|)+(?:([^\r\n|]*))\r?\n)+)/gm, replacement : "\n<table>\n  <tr><th>{{{{TH}}}}$1{{{{TH}}}}</th></tr>\n  <tr><td>{{{{TD}}}}$6{{{{TD}}}}</td></tr>\n</table>\n<br/>\n" },
 	{ pattern : /(\|(?:([^\r\n|]*)\|)+)\r?\n\|(?:( ?:?-+:? ?)\|)+\r?\n((\|(?:([^\r\n|]*)\|)+\r?\n)+)/gm, replacement : "\n<table>\n  <tr><th>{{{{TH}}}}$1{{{{TH}}}}</th></tr>\n  <tr><td>{{{{TD}}}}$4{{{{TD}}}}</td></tr>\n</table>\n<br/>\n" },
 	// code
-	{ pattern : /[\']{3}((.|\n)+)[\']{3}/gm, replacement : '<code>$1</code>' },  // code bloc
+	{ pattern : /[\']{3}((.|\n)*?)[\']{3}/gm, replacement : '<code>$1</code>' },  // code bloc
 	// manage lists
 	{ pattern : /^[ \t]*(\w|\d)\.[ \t]+(.+)$\n/gm,          replacement : "<li class=\"endListNb\">$2</li></ol>\n" },                                    // end of number
 	{ pattern : /\n\n^[ \t]*([\w\d])\.[ \t]+(.+)$/gm,       replacement : "<ol type=\"$1\" start=\"$1\"><li class=\"startListNb\">$2</li>" },            // start of number
