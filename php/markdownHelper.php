@@ -11,10 +11,10 @@ class MarkdownAdapter {
 			// code
 			'/[\']{3}((.|\n)+?)[\']{3}/m',  // code bloc
 			// manage lists
-			'/^[ \t]*(\w|\d)\.[ \t]+(.+)$\n/m',         // end of number
-			'/^\n[ \t]*([\w\d])\.[ \t]+(.+)$/m',        // start of number
+			'/^[ \t]*(\w|\d)\.[ \t]+(.+)\n$/m',           // end of number
+			'/^\n[ \t]*([\w\d])\.[ \t]+(.+)$/m',          // start of number
 			'/^[ \t]*[-\*][ \t]+(.+)\n$/m',               // end of list
-			'/^\n[ \t]*[-\*][ \t]+(.+)$/m',             // start of list
+			'/^\n[ \t]*[-\*][ \t]+(.+)$/m',               // start of list
 			'/^[ \t]*(([\d\w]\.)|([-\*]))[ \t]+(.+)$/m',  // content of list
 			// manage titles
 			'/^\r?\n?[#]{6}\s*(.+)\r?\n?$/m',
