@@ -23,17 +23,17 @@ class MarkdownAdapter {
 			'/^\r?\n?[#]{3}\s*(.+)\r?\n?$/m',
 			'/^\r?\n?[#]{2}\s*(.+)\r?\n?$/m',
 			'/^\r?\n?[#]{1}\s*(.+)\r?\n?$/m',
-			// specific titles
-			'/^\r?\n?(.*)\r?\n[=]+.*\r?\n?$/m',
+			'/^\r?\n?(.*)\r?\n[=][=]+.*\r?\n?$/m',
 			'/^\r?\n?(.*)\r?\n[-][-]+.*\r?\n?$/m',
 			// lines break
-			'/\n([-*_]{3,})\n/',
+			'/\r?\n([-*_]{3,})\r?\n/',
 			// manage caracters
 			'/([\W\s_])\*{3}(.*?)\*{3}([\W\s_])/',  // bolt && italic
 			'/([\W\s_])\*{2}(.*?)\*{2}([\W\s_])/',  // bolt
 			'/([\W\s_])\*{1}(.*?)\*{1}([\W\s_])/',  // italic
 			'/([\W\s])_(.*?)_([\W\s])/',            // underline
-			'/(.*?\r?\n)(\r?\n)/m',  // new line
+            // new line
+			'/(.*?\r?\n)(\r?\n)/m',
 			// paragraph
 			//'/<.*>((.|\n)*)<\/.*>/',
 			// links
@@ -57,15 +57,14 @@ class MarkdownAdapter {
 			"<ul><li class=\"startListLi\">\${1}</li>",                                  // start of list
 			"<li class=\"contentList\">\${4}</li>",                                      // content of list
 			// manage titles
-			"<h6>\${1}</h6>",
-			"<h5>\${1}</h5>",
-			"<h4>\${1}</h4>",
-			"<h3>\${1}</h3>",
-			"<h2>\${1}</h2>",
-			"<h1>\${1}</h1>",
-			// specific titles
-			"<h1>\${1}</h1>",
-			"<h2>\${1}</h2>",
+			'<h6>${1}</h6>',
+			'<h5>${1}</h5>',
+			'<h4>${1}</h4>',
+			'<h3>${1}</h3>',
+			'<h2>${1}</h2>',
+			'<h1>${1}</h1>',
+			'<h1>${1}</h1>',
+			'<h2>${1}</h2>',
 			// lines break
 			'<hr />',
 			// manage caracters
@@ -73,7 +72,8 @@ class MarkdownAdapter {
 			'${1}<b>${2}</b>${3}',         // bolt
 			'${1}<i>${2}</i>${3}',         // italic
 			'${1}<u>${2}</u>${3}',         // underline
-			"\${1}<br />\n",  // new line
+            // new line
+			"\${1}<br />\n",
 			// paragraph
 			//'<p>${1}</p>',
 			// links
@@ -82,7 +82,6 @@ class MarkdownAdapter {
 			"<img src=\"\${2}\" alt=\"\${1}\" />",
 			// videos
 			//"&nbsp;", // spaces
-
 		];
 
 	public static function transformMdToHtml($contentString) {

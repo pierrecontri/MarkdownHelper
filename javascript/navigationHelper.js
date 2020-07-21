@@ -7,7 +7,7 @@
 
 var navigationHelper = {};
 
-navigationHelper.loadTextDocument = function(theURL, callbackTreatment)
+navigationHelper.loadTextDocument = function(theURL, acceptOrigin, callbackTreatment)
 {
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function() {
@@ -20,7 +20,7 @@ navigationHelper.loadTextDocument = function(theURL, callbackTreatment)
 	};
 
 	xmlhttp.open("GET", theURL, true);
-	xmlhttp.setRequestHeader('Access-Control-Allow-Origin', '*');
+	xmlhttp.setRequestHeader('Access-Control-Allow-Origin', acceptOrigin);
 	xmlhttp.setRequestHeader('Accept', 'application/json, text/javascript, text/plain');
 	xmlhttp.setRequestHeader('Content-Type','text/plain; charset=UTF-8');
 	xmlhttp.send();
@@ -41,18 +41,18 @@ navigationHelper.getParametersFromUrl = function() {
 	return params;
 };
 
-
 navigationHelper.printMdFile = function(...args) {
 
 	// get arguments
-    let [idContainer, mdUrl, other] = args;
+    let [idContainer, mdUrl, acceptOrigin, other] = args;
 
     if (mdUrl == undefined || mdUrl == '')
 		mdUrl = navigationHelper.getParametersFromUrl().read;
 
+    if (acceptOrigin == undefined || acceptOrigin == '') acceptOrigin = "*";
 
 	navigationHelper.loadTextDocument(
-		mdUrl,
+		mdUrl, acceptOrigin,
 		function (contentText) {
 			document.getElementById(idContainer).innerHTML = markdownHelper.transformMdToHtml(contentText);
 		}
