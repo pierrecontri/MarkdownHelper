@@ -9,7 +9,7 @@ class MarkdownAdapter {
 			'/((?:([^\r\n|]*)\|)+(?:([^\r\n|]*)))\r?\n(?:( ?:?-+:? ?)\|)+(?:( ?:?-+:? ?))\r?\n(((?:([^\r\n|]*)\|)+(?:([^\r\n|]*))\r?\n)+)/m',
 			'/(\|(?:([^\r\n|]*)\|)+)\r?\n\|(?:( ?:?-+:? ?)\|)+\r?\n((\|(?:([^\r\n|]*)\|)+\r?\n)+)/m',
 			// code
-			'/[\']{3}((.|\n)+?)[\']{3}/m',  // code bloc
+			'/[\']{3}((.|\n)+?)[\']{3}/m',                // code bloc
 			// manage lists
 			'/^[ \t]*(\w|\d)\.[ \t]+(.+)\n$/m',           // end of number
 			'/^\n[ \t]*([\w\d])\.[ \t]+(.+)$/m',          // start of number
@@ -17,14 +17,14 @@ class MarkdownAdapter {
 			'/^\n[ \t]*[-\*][ \t]+(.+)$/m',               // start of list
 			'/^[ \t]*(([\d\w]\.)|([-\*]))[ \t]+(.+)$/m',  // content of list
 			// manage titles
-			'/^\r?\n?[#]{6}\s*(.+)\r?\n?$/m',
-			'/^\r?\n?[#]{5}\s*(.+)\r?\n?$/m',
-			'/^\r?\n?[#]{4}\s*(.+)\r?\n?$/m',
-			'/^\r?\n?[#]{3}\s*(.+)\r?\n?$/m',
-			'/^\r?\n?[#]{2}\s*(.+)\r?\n?$/m',
-			'/^\r?\n?[#]{1}\s*(.+)\r?\n?$/m',
-			'/^\r?\n?(.*)\r?\n[=][=]+.*\r?\n?$/m',
-			'/^\r?\n?(.*)\r?\n[-][-]+.*\r?\n?$/m',
+			'/^\r?\n?#{6}\s*(.+)\r?\n?$/m',
+			'/^\r?\n?#{5}\s*(.+)\r?\n?$/m',
+			'/^\r?\n?#{4}\s*(.+)\r?\n?$/m',
+			'/^\r?\n?#{3}\s*(.+)\r?\n?$/m',
+			'/^\r?\n?#{2}\s*(.+)\r?\n?$/m',
+			'/^\r?\n?#{1}\s*(.+)\r?\n?$/m',
+			'/^\r?\n?(.*)\r?\n==+.*\r?\n?$/m',
+			'/^\r?\n?(.*)\r?\n--+.*\r?\n?$/m',
 			// lines break
 			'/\r?\n([-*_]{3,})\r?\n/',
 			// manage caracters
@@ -39,9 +39,8 @@ class MarkdownAdapter {
 			// links
 			'/(\s)\[(.*)\]\((.*)\)\s?/m',
 			// images
-			'/\s!\[(.*)\]\((.*)\)\s/m',
+			'/(\s)!\[(.*)\]\((.*)\)\s/m',
 			// videos
-			//'/ /', //spaces
 		];
 
 	protected static $replacements = [
@@ -77,11 +76,10 @@ class MarkdownAdapter {
 			// paragraph
 			//'<p>${1}</p>',
 			// links
-			"\${1}<a href=\"\${3}\" target=\"_blank\">\${2}</a>",
+			"\${1}<a href=\"\${3}\" target=\"_blank\">\${2}</a> ",
 			// images
-			"<img src=\"\${2}\" alt=\"\${1}\" />",
+			"\${1}<img src=\"\${3}\" alt=\"\${2}\" /> ",
 			// videos
-			//"&nbsp;", // spaces
 		];
 
 	public static function transformMdToHtml($contentString) {
