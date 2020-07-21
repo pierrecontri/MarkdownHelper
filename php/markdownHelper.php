@@ -46,16 +46,16 @@ class MarkdownAdapter {
 
 	protected static $replacements = [
 			// tables
-			"\n<table>\n  <tr><th>{{{{TH}}}}\${1}{{{{TH}}}}</th></tr>\n  <tr><td>{{{{TD}}}}\${6}{{{{TD}}}}</td></tr>\n</table>\n<br/>\n",
-			"\n<table>\n  <tr><th>{{{{TH}}}}\${1}{{{{TH}}}}</th></tr>\n  <tr><td>{{{{TD}}}}\${4}{{{{TD}}}}</td></tr>\n</table>\n<br/>\n",
+			"<table>\n  <tr><th>{{{{TH}}}}\${1}{{{{TH}}}}</th></tr>\n  <tr><td>{{{{TD}}}}\${6}{{{{TD}}}}</td></tr>\n</table>\n",
+			"<table>\n  <tr><th>{{{{TH}}}}\${1}{{{{TH}}}}</th></tr>\n  <tr><td>{{{{TD}}}}\${4}{{{{TD}}}}</td></tr>\n</table>\n",
 			// code
 			'<pre><code>${1}</code></pre>',  // code bloc
 			// manage lists
-			"<li class=\"endListNb\">\${2}</li></ol>\n",                                      // end of number
-			"<ol type=\"\${1}\" start=\"\${1}\"><li class=\"startListNb\">\${2}</li>",  // start of number
-			"<li class=\"endListLi\">\${1}</li></ul>\n",                                      // end of list
-			"<ul><li class=\"startListLi\">\${1}</li>",                                 // start of list
-			"<li class=\"contentList\">\${4}</li>",                                         // content of list
+			"<li class=\"endListNb\">\${2}</li></ol>\n",                                 // end of number
+			"<ol type=\"\${1}\" start=\"\${1}\"><li class=\"startListNb\">\${2}</li>",   // start of number
+			"<li class=\"endListLi\">\${1}</li></ul>\n",                                 // end of list
+			"<ul><li class=\"startListLi\">\${1}</li>",                                  // start of list
+			"<li class=\"contentList\">\${4}</li>",                                      // content of list
 			// manage titles
 			"<h6>\${1}</h6>",
 			"<h5>\${1}</h5>",
