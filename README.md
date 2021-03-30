@@ -8,3 +8,5 @@ Description
 -----------
 
 Juste get a helper can be used in a controler.
+
+![Sample of Liist with this Markdown helper](./Documentation/SampleListWithMarkDownHelper.png)
